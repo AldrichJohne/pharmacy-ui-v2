@@ -3,6 +3,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {ProductsService} from "./products.service";
+import {MatDialog} from "@angular/material/dialog";
+import {AddSingleProductFormComponent} from "./add-single-product-form/add-single-product-form.component";
 
 @Component({
   selector: 'app-product-page',
@@ -18,7 +20,8 @@ export class ProductPageComponent implements OnInit {
   @ViewChild('productsPaginator') productsPaginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductsService) { }
+  constructor(private productService: ProductsService,
+              private dialog : MatDialog) { }
 
   ngOnInit(): void {
     this.getProducts()
@@ -43,13 +46,28 @@ export class ProductPageComponent implements OnInit {
 
   updatePrompt(row : any) {}
 
-  addSingleProduct() {}
+  addSingleProduct() {
+    this.dialog.open(AddSingleProductFormComponent, {
+      width:'50%',
+    }).afterClosed().subscribe(val=>{
+      if(val==='save'){
+        this.getProducts();
+      }
+    })
+  }
 
   addMultipleProducts() {}
 
   openCart() {}
 
-  applyFilterProducts(event: Event) {}
+  applyFilterProducts(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.productsDataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.productsDataSource.paginator) {
+      this.productsDataSource.paginator.firstPage();
+    }
+  }
 
   openSaleFrom(row : any) {}
 

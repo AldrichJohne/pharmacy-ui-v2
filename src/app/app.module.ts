@@ -29,12 +29,16 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatGridListModule} from "@angular/material/grid-list";
+import { AddSingleProductFormComponent } from './components/product-page/add-single-product-form/add-single-product-form.component';
+import { NotifyPromptComponent } from './components/prompts/notify-prompt/notify-prompt.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    ProductPageComponent
+    ProductPageComponent,
+    AddSingleProductFormComponent,
+    NotifyPromptComponent
   ],
   imports: [
     BrowserModule,
