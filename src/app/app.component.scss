@@ -7,12 +7,13 @@
   position: absolute;
 
   .container {
-    /* Center the content vertically and horizontally */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Use viewport height for full-screen height */
+    height: 100vh;
+    background-color: blue;
+    padding: 0;
   }
 
   /* Header styles */
@@ -22,9 +23,8 @@
     align-items: center;
     justify-content: space-between;
     height: 64px;
-    margin: 0;
     padding: 0;
-    margin-bottom: 30px;
+    margin: 0 0 30px;
     overflow-x: hidden;
 
     /* UI Properties */
