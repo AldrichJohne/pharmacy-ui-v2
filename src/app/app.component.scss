@@ -1,4 +1,3 @@
-
 .background {
   background-color: mediumpurple;
   width: 100%;
@@ -7,18 +6,15 @@
   position: absolute;
 
   .container {
-    display: flex;
-    flex-direction: column;
+    //display: flex;
+    //flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: blue;
     padding: 0;
   }
 
-  /* Header styles */
   .row {
-    /* Layout Properties */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,13 +23,12 @@
     margin: 0 0 30px;
     overflow-x: hidden;
 
-    /* UI Properties */
     background: white;
 
     .header-logo {
       height: 3em;
       border: 0;
-      margin: 1.2em 0; /* Combine margin-top and margin-bottom */
+      margin: 1.2em 0;
     }
 
     .header-text {
@@ -44,11 +39,10 @@
       opacity: 1;
       margin-top: 1.5em;
       margin-bottom: 1.5em;
-      margin-right: 1em; /* Adjust the right margin as needed */
+      margin-right: 1em;
     }
   }
 
-  /* Footer styles */
   .footer {
     display: flex;
     align-items: center;
@@ -58,7 +52,7 @@
 
     .footer-text {
       font-size: 12px;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       color: #656565;
       opacity: 1;
     }

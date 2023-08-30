@@ -3,15 +3,19 @@
 }
 
 .main {
-  margin-top: 10px;
+  //min-width: 1200px;
   width: 100%;
+  height: auto; /* Set your desired height */
   background-color: white;
+  align-items: center;
 
   .page-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     height: 10%;
+    padding: 0 10px 0 10px;
+    min-width: 400px;
 
     .buttons {
       width: 70%;
@@ -55,13 +59,15 @@
   }
 
   .page-table {
+    display: flex;
+    min-width: 1200px;
     .main-table {
       overflow-y: auto;
       overflow-x: auto;
+      width: 100%;
 
       table {
         width: 100%;
-
         th {
           position: sticky;
           top: 0;
@@ -74,24 +80,6 @@
           text-align: left;
         }
 
-        .mat-column-name,
-        .mat-column-className,
-        .mat-column-remainingStock,
-        .mat-column-totalStock,
-        .mat-column-sold,
-        .mat-column-pricePerPc,
-        .mat-column-srpPerPc,
-        .mat-column-totalPriceRemaining,
-        .mat-column-totalPriceSold,
-        .mat-column-totalGross,
-        .mat-column-profit,
-        .mat-column-expiryDate,
-        .mat-column-status,
-        .mat-column-action {
-          /* Remove any fixed width styles */
-          width: auto;
-          /* Add any necessary styles for these columns */
-        }
       }
     }
   }
