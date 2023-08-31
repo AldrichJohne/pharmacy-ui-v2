@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as moment from 'moment';
-import {NotifyPromptComponent} from "../../prompts/notify-prompt/notify-prompt.component";
+import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 
 @Component({
   selector: 'app-add-single-product-form',

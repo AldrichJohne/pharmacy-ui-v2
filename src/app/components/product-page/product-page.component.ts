@@ -5,7 +5,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {ProductsService} from "./products.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AddSingleProductFormComponent} from "./add-single-product-form/add-single-product-form.component";
-import {DeletePromptProductsComponent} from "../prompts/delete-prompt-products/delete-prompt-products.component";
+import {DeletePromptProductsComponent} from "./delete-prompt-products/delete-prompt-products.component";
+import {UpdateProductFormComponent} from "./update-product-form/update-product-form.component";
 
 @Component({
   selector: 'app-product-page',
@@ -52,7 +53,14 @@ export class ProductPageComponent implements OnInit {
     })
   }
 
-  updatePrompt(row : any) {}
+  updatePrompt(row : any) {
+    this.dialog.open(UpdateProductFormComponent, {
+      width: '50%',
+      data: row
+    }).afterClosed().subscribe(val=>{
+      this.getProducts();
+    })
+  }
 
   addSingleProduct() {
     this.dialog.open(AddSingleProductFormComponent, {

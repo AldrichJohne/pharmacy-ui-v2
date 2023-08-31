@@ -30,8 +30,9 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { AddSingleProductFormComponent } from './components/product-page/add-single-product-form/add-single-product-form.component';
-import { NotifyPromptComponent } from './components/prompts/notify-prompt/notify-prompt.component';
-import { DeletePromptProductsComponent } from './components/prompts/delete-prompt-products/delete-prompt-products.component';
+import { NotifyPromptComponent } from './shared/notify-prompt/notify-prompt.component';
+import { DeletePromptProductsComponent } from './components/product-page/delete-prompt-products/delete-prompt-products.component';
+import { UpdateProductFormComponent } from './components/product-page/update-product-form/update-product-form.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DeletePromptProductsComponent } from './components/prompts/delete-promp
     ProductPageComponent,
     AddSingleProductFormComponent,
     NotifyPromptComponent,
-    DeletePromptProductsComponent
+    DeletePromptProductsComponent,
+    UpdateProductFormComponent
   ],
   imports: [
     BrowserModule,

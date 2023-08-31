@@ -27,4 +27,8 @@ export class ProductsService {
   deleteProduct(id : number) {
     return this.http.delete<any>(this.urlService.backendUrl + '/inventory/products/' + id)
   }
+
+  updateProduct(data : any, id : number) {
+    return this.http.put<any>(this.urlService.backendUrl + '/inventory/products/' + id, data)
+  }
 }
