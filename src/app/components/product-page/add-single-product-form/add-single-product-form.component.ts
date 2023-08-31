@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../products.service";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../prompts/notify-prompt/notify-prompt.component";
 
@@ -20,7 +20,8 @@ export class AddSingleProductFormComponent implements OnInit {
   constructor(private formBuilder : FormBuilder,
               private productService: ProductsService,
               private dialogRef : MatDialogRef<AddSingleProductFormComponent>,
-              private dialog : MatDialog) { }
+              private dialog : MatDialog,
+              @Inject(MAT_DIALOG_DATA) public editData : any) { }
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({

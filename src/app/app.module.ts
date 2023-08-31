@@ -31,6 +31,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { AddSingleProductFormComponent } from './components/product-page/add-single-product-form/add-single-product-form.component';
 import { NotifyPromptComponent } from './components/prompts/notify-prompt/notify-prompt.component';
+import { DeletePromptProductsComponent } from './components/prompts/delete-prompt-products/delete-prompt-products.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NotifyPromptComponent } from './components/prompts/notify-prompt/notify
     LoginPageComponent,
     ProductPageComponent,
     AddSingleProductFormComponent,
-    NotifyPromptComponent
+    NotifyPromptComponent,
+    DeletePromptProductsComponent
   ],
   imports: [
     BrowserModule,
