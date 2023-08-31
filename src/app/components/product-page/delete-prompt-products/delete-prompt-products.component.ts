@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ProductsService} from "../../product-page/products.service";
+import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {NotifyPromptComponent} from "../notify-prompt/notify-prompt.component";
+import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 
 @Component({
   selector: 'app-delete-prompt-products',
