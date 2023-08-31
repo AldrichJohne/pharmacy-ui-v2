@@ -23,4 +23,8 @@ export class ProductsService {
   addProduct(data : any) {
     return this.http.post(this.urlService.backendUrl + '/inventory/' + this.classification + '/products', data)
   }
+
+  deleteProduct(id : number) {
+    return this.http.delete<any>(this.urlService.backendUrl + '/inventory/products/' + id)
+  }
 }
