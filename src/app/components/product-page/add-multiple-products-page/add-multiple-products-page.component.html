@@ -84,7 +84,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button (click)="removeProductFromList(item)" color="warn">
+            <button mat-icon-button (click)="btnRemoveProductFromList(item)" color="warn">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -97,9 +97,9 @@
     </div>
     <div class="empty-space"></div>
     <div class="table-buttons">
-      <button mat-raised-button color="warn" (click)="confirmClose()">Close</button>
-      <button mat-raised-button color="warn" (click)="confirmClearTable()">Clear</button>
-      <button mat-raised-button color="primary" (click)="confirmSave()">Save</button>
+      <button mat-raised-button color="warn" (click)="btnConfirmClose()">Close</button>
+      <button mat-raised-button color="warn" (click)="btnConfirmClearTable()">Clear</button>
+      <button mat-raised-button color="primary" (click)="btnConfirmSave()">Save</button>
     </div>
   </div>
 </div>
