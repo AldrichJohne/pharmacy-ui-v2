@@ -4,6 +4,7 @@ import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
+import {MessagesService} from "../../../shared/services/messages.service";
 
 @Component({
   selector: 'app-add-single-product-form',
@@ -19,6 +20,7 @@ export class AddSingleProductFormComponent implements OnInit {
 
   constructor(private formBuilder : FormBuilder,
               private productService: ProductsService,
+              private messageService: MessagesService,
               private dialogRef : MatDialogRef<AddSingleProductFormComponent>,
               private dialog : MatDialog,
               @Inject(MAT_DIALOG_DATA) public editData : any) { }
@@ -44,7 +46,7 @@ export class AddSingleProductFormComponent implements OnInit {
     if (capital != '' && retailPrice != '' && capital >= retailPrice) {
       this.productForm.controls['srpPerPc'].setValue('');
       this.productForm.controls['pricePerPc'].setValue('');
-      this.notifyMessage = "Capital should be smaller than SRP.";
+      this.notifyMessage = this.messageService.ERROR_CAPITAL_SRP;
       this.notifyStatus = "ERROR";
       this.openNotifyDialog();
     } else {
@@ -56,21 +58,21 @@ export class AddSingleProductFormComponent implements OnInit {
         this.productService.addProduct(this.productForm.value)
           .subscribe({
             next:()=>{
-              this.notifyMessage = 'Product Added Successfully';
+              this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
               this.notifyStatus = 'OK';
               this.openNotifyDialog();
               this.productForm.reset();
               this.dialogRef.close('save');
             },
             error:()=>{
-              this.notifyMessage = 'Error Adding Product';
+              this.notifyMessage = this.messageService.ERROR_PRODUCT_ADD;
               this.notifyStatus = 'ERROR';
               this.openNotifyDialog();
             }
           })
       }
       else {
-        this.notifyMessage = 'Missing required fields.';
+        this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD;
         this.notifyStatus = 'ERROR';
         this.openNotifyDialog();
       }

@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationPromptComponent} from "./confirmation-prompt/confirmation-prompt.component";
 import {Subscription} from "rxjs";
 import {ProductPageUtilService} from "../product-page-util.service";
+import {MessagesService} from "../../../shared/services/messages.service";
 
 @Component({
   selector: 'app-add-multiple-products-page',
@@ -18,7 +19,6 @@ import {ProductPageUtilService} from "../product-page-util.service";
 export class AddMultipleProductsPageComponent implements OnInit {
 
   productList: any[] = [];
-  confirmPromptTriggeredBy = '';
   subscription: Subscription;
   addProductForm!: FormGroup;
   currentDate = new Date();
@@ -31,6 +31,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
 
   constructor(private cdRef: ChangeDetectorRef,
               private productService: ProductsService,
+              private messageService: MessagesService,
               private formBuilder : FormBuilder,
               private dialog : MatDialog,
               private router: Router,
@@ -42,7 +43,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
             this.saveProducts();
             this.productList = [];
             this.dataSource.data = this.productList;
-            this.notifyMessage = 'Products Added Successfully.';
+            this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
             this.notifyStatus = 'OK';
             this.openNotifyDialog();
             this.router.navigate(["products"]);
@@ -55,7 +56,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
           case 'CLEAR_TABLE_BUTTON':
             this.productList = [];
             this.dataSource.data = this.productList;
-            this.notifyMessage = 'Table is cleared.';
+            this.notifyMessage = this.messageService.OK_TABLE_CLEARED;
             this.notifyStatus = 'OK';
             this.openNotifyDialog();
             break;
@@ -92,7 +93,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
 
   addProductToList() {
     if (this.addProductForm.invalid) {
-      this.notifyMessage = 'Missing required filed.'
+      this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD
       this.notifyStatus = 'ERROR';
       this.openNotifyDialog();
     } else {
@@ -101,7 +102,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
       if (capital >= retailPrice) {
         this.addProductForm.controls['srpPerPc'].setValue('');
         this.addProductForm.controls['pricePerPc'].setValue('');
-        this.notifyMessage = "Capital should be smaller than SRP.";
+        this.notifyMessage = this.messageService.ERROR_CAPITAL_SRP;
         this.notifyStatus = "ERROR";
         this.openNotifyDialog();
       } else {
@@ -151,24 +152,24 @@ export class AddMultipleProductsPageComponent implements OnInit {
 
   btnConfirmClearTable() {
     if (this.productList.length === 0) {
-      this.notifyMessage = 'There is no product present in the list.';
+      this.notifyMessage = this.messageService.ERROR_PRODUCT_ON_LIST;
       this.notifyStatus = 'ERROR';
       this.openNotifyDialog();
     } else {
       this.triggeredBy = "CLEAR_TABLE_BUTTON";
-      this.confirmationMessage = "Are you sure you want to clear all data from the table and not save them?."
+      this.confirmationMessage = this.messageService.QUESTION_CLEAR_DATA;
       this.openConfirmationPrompt();
     }
   }
 
   btnConfirmSave() {
     if (this.productList.length === 0) {
-      this.notifyMessage = 'There is no product present on the list.';
+      this.notifyMessage = this.messageService.ERROR_PRODUCT_ON_LIST;
       this.notifyStatus = 'ERROR';
       this.openNotifyDialog();
     } else {
       this.triggeredBy = "SAVE_BUTTON";
-      this.confirmationMessage = "Are you sure you want to save the product(s) to the database?"
+      this.confirmationMessage = this.messageService.QUESTION_PRODUCT_SAVE;
       this.openConfirmationPrompt();
     }
   }
@@ -178,7 +179,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
       this.router.navigate(["products"]);
     } else {
       this.triggeredBy = "CLOSE_PAGE_BUTTON";
-      this.confirmationMessage = "Are you sure you want to close the page? the table data will disappear when closed."
+      this.confirmationMessage = this.messageService.QUESTION_CLOSE_PAGE;
       this.openConfirmationPrompt();
     }
   }
@@ -212,7 +213,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
         next: ()=> {
           this.productList = [];
           this.dataSource.data = this.productList;
-          this.notifyMessage = 'Products Added Successfully.';
+          this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
           this.notifyStatus = 'OK';
           this.openNotifyDialog();
         }

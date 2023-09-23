@@ -8,6 +8,7 @@ import {AddSingleProductFormComponent} from "./add-single-product-form/add-singl
 import {DeletePromptProductsComponent} from "./delete-prompt-products/delete-prompt-products.component";
 import {UpdateProductFormComponent} from "./update-product-form/update-product-form.component";
 import {Router} from "@angular/router";
+import {MessagesService} from "../../shared/services/messages.service";
 
 @Component({
   selector: 'app-product-page',
@@ -24,6 +25,7 @@ export class ProductPageComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private productService: ProductsService,
+              private messageService: MessagesService,
               private dialog : MatDialog,
               private router: Router) { }
 
@@ -40,7 +42,7 @@ export class ProductPageComponent implements OnInit {
           this.productsDataSource.sort = this.sort;
         },
         error:()=>{
-          this.productStatus = 'Error While Fetching The Products';
+          this.productStatus = this.messageService.ERROR_PRODUCT_FETCH;
           console.log(this.productStatus);
         }
       })
