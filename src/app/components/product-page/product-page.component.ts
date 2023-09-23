@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddSingleProductFormComponent} from "./add-single-product-form/add-single-product-form.component";
 import {DeletePromptProductsComponent} from "./delete-prompt-products/delete-prompt-products.component";
 import {UpdateProductFormComponent} from "./update-product-form/update-product-form.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-page',
@@ -23,7 +24,8 @@ export class ProductPageComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private productService: ProductsService,
-              private dialog : MatDialog) { }
+              private dialog : MatDialog,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.getProducts()
@@ -72,7 +74,9 @@ export class ProductPageComponent implements OnInit {
     })
   }
 
-  addMultipleProducts() {}
+  addMultipleProducts() {
+    this.router.navigate(["products/add-multiple"]);
+  }
 
   openCart() {}
 

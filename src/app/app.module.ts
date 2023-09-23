@@ -33,6 +33,8 @@ import { AddSingleProductFormComponent } from './components/product-page/add-sin
 import { NotifyPromptComponent } from './shared/notify-prompt/notify-prompt.component';
 import { DeletePromptProductsComponent } from './components/product-page/delete-prompt-products/delete-prompt-products.component';
 import { UpdateProductFormComponent } from './components/product-page/update-product-form/update-product-form.component';
+import { AddMultipleProductsPageComponent } from './components/product-page/add-multiple-products-page/add-multiple-products-page.component';
+import { ConfirmationPromptComponent } from './components/product-page/add-multiple-products-page/confirmation-prompt/confirmation-prompt.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { UpdateProductFormComponent } from './components/product-page/update-pro
     AddSingleProductFormComponent,
     NotifyPromptComponent,
     DeletePromptProductsComponent,
-    UpdateProductFormComponent
+    UpdateProductFormComponent,
+    AddMultipleProductsPageComponent,
+    ConfirmationPromptComponent
   ],
   imports: [
     BrowserModule,
