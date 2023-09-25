@@ -3,6 +3,7 @@ import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 import {MessagesService} from "../../../shared/services/messages.service";
+import {ConstantsService} from "../../../shared/services/constants.service";
 
 @Component({
   selector: 'app-delete-prompt-products',
@@ -17,6 +18,7 @@ export class DeletePromptProductsComponent implements OnInit {
 
   constructor(private productService: ProductsService,
               private messageService: MessagesService,
+              private constantService: ConstantsService,
               @Inject(MAT_DIALOG_DATA) public deleteData : any,
               private dialogRef : MatDialogRef<DeletePromptProductsComponent>,
               private dialog : MatDialog) { }
@@ -30,13 +32,13 @@ export class DeletePromptProductsComponent implements OnInit {
       .subscribe({
         next: () => {
           this.notifyMessage = this.messageService.OK_PRODUCT_DELETE;
-          this.notifyStatus = 'OK';
+          this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
           this.OpenNotifyDialog();
           this.dialogRef.close()
         },
         error:()=>{
           this.notifyMessage = this.messageService.ERROR_PRODUCT_DELETE;
-          this.notifyStatus = 'ERROR';
+          this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
           this.OpenNotifyDialog();
           this.dialogRef.close()
         }
@@ -45,7 +47,7 @@ export class DeletePromptProductsComponent implements OnInit {
 
   OpenNotifyDialog() {
     this.dialog.open(NotifyPromptComponent, {
-      width: '20%',
+      width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
     });
   }

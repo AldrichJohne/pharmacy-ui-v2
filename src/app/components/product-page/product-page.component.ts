@@ -9,6 +9,7 @@ import {DeletePromptProductsComponent} from "./delete-prompt-products/delete-pro
 import {UpdateProductFormComponent} from "./update-product-form/update-product-form.component";
 import {Router} from "@angular/router";
 import {MessagesService} from "../../shared/services/messages.service";
+import {ConstantsService} from "../../shared/services/constants.service";
 
 @Component({
   selector: 'app-product-page',
@@ -19,13 +20,27 @@ export class ProductPageComponent implements OnInit {
   productStatus = '';
   currentCartValue = 1;
 
-  productColumns: string[] = ['cashier', 'name', 'className', 'remainingStock', 'totalStock', 'sold', 'pricePerPc', 'srpPerPc', 'totalGross', 'profit', 'expiryDate', 'action'];
+  productColumns: string[] = [
+    this.constantService.TBL_HEADER_CASHIER_TS,
+    this.constantService.TBL_HEADER_NAME_TS,
+    this.constantService.TBL_HEADER_CLASS_NAME_TS,
+    this.constantService.TBL_HEADER_REMAINING_STOCK_TS,
+    this.constantService.TBL_HEADER_TOTAL_STOCK_TS,
+    this.constantService.TBL_HEADER_SOLD_TS,
+    this.constantService.TBL_HEADER_PRC_TS,
+    this.constantService.TBL_HEADER_SRP_TS,
+    this.constantService.TBL_HEADER_GROSS_TS,
+    this.constantService.TBL_HEADER_PROFIT_TS,
+    this.constantService.TBL_HEADER_EXPR_DATE_TS,
+    this.constantService.TBL_HEADER_ACTION_TS];
+
   productsDataSource!: MatTableDataSource<any>;
   @ViewChild('productsPaginator') productsPaginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private productService: ProductsService,
               private messageService: MessagesService,
+              private constantService: ConstantsService,
               private dialog : MatDialog,
               private router: Router) { }
 
@@ -50,16 +65,16 @@ export class ProductPageComponent implements OnInit {
 
   deletePrompt(row : any) {
     this.dialog.open(DeletePromptProductsComponent, {
-      width: '20%',
+      width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: row
     }).afterClosed().subscribe(val => {
       this.getProducts();
     })
   }
 
-  updatePrompt(row : any) {
+  updateForm(row : any) {
     this.dialog.open(UpdateProductFormComponent, {
-      width: '50%',
+      width: this.constantService.DIALOG_FORM_WIDTH,
       data: row
     }).afterClosed().subscribe(val=>{
       this.getProducts();
@@ -68,11 +83,9 @@ export class ProductPageComponent implements OnInit {
 
   addSingleProduct() {
     this.dialog.open(AddSingleProductFormComponent, {
-      width:'50%',
-    }).afterClosed().subscribe(val=>{
-      if(val==='save'){
+      width: this.constantService.DIALOG_FORM_WIDTH,
+    }).afterClosed().subscribe(_val=>{
         this.getProducts();
-      }
     })
   }
 
