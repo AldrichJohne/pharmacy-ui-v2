@@ -4,6 +4,7 @@ import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MessagesService} from "../../../shared/services/messages.service";
 
 @Component({
   selector: 'app-update-product-form',
@@ -31,7 +32,8 @@ export class UpdateProductFormComponent implements OnInit {
               private dialogRef: MatDialogRef<UpdateProductFormComponent>,
               private dialog: MatDialog,
               private formBuilder: FormBuilder,
-              private productService: ProductsService) {
+              private productService: ProductsService,
+              private messageService: MessagesService) {
   }
 
   ngOnInit(): void {
@@ -65,7 +67,7 @@ export class UpdateProductFormComponent implements OnInit {
 
   updateProduct() {
     if (this.productForm.controls['totalStock'].value < this.sold) {
-      this.notifyMessage = "You can't make total stock lesser than sold, it will become negative.";
+      this.notifyMessage = this.messageService.ERROR_TOTAL_STOCK_SOLD;
       this.notifyStatus = "ERROR";
       this.openNotifyPrompt();
       this.productForm.controls['totalStock'].setValue(this.totalStock);
@@ -80,14 +82,14 @@ export class UpdateProductFormComponent implements OnInit {
       this.productService.updateProduct(updatedProductValue, this.editData.id)
         .subscribe({
           next:()=>{
-            this.notifyMessage = 'Product Updated Successfully';
+            this.notifyMessage = this.messageService.OK_PRODUCT_UPDATE;
             this.notifyStatus = 'OK';
             this.openNotifyPrompt();
             this.productForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{
-            this.notifyMessage = 'Error Updating Product';
+            this.notifyMessage = this.messageService.ERROR_PRODUCT_UPDATE;
             this.notifyStatus = 'ERROR';
             this.openNotifyPrompt();
           }

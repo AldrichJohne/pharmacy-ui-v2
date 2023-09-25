@@ -4,6 +4,8 @@ import {ProductsService} from "../products.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
+import {MessagesService} from "../../../shared/services/messages.service";
+import {ConstantsService} from "../../../shared/services/constants.service";
 
 @Component({
   selector: 'app-add-single-product-form',
@@ -19,6 +21,8 @@ export class AddSingleProductFormComponent implements OnInit {
 
   constructor(private formBuilder : FormBuilder,
               private productService: ProductsService,
+              private messageService: MessagesService,
+              private constantService: ConstantsService,
               private dialogRef : MatDialogRef<AddSingleProductFormComponent>,
               private dialog : MatDialog,
               @Inject(MAT_DIALOG_DATA) public editData : any) { }
@@ -34,44 +38,44 @@ export class AddSingleProductFormComponent implements OnInit {
       expiryDate:['']
     });
 
-    this.productForm.controls['totalStock'].setValue(0);
-    this.productForm.controls['expiryDateTemp'].setValue(this.currentDate);
+    this.productForm.controls[this.constantService.TBL_HEADER_TOTAL_STOCK_TS].setValue(0);
+    this.productForm.controls[this.constantService.CONST_EXPR_DATE_TEMP_TS].setValue(this.currentDate);
   }
 
   addProduct() {
-    const capital = this.productForm.controls['pricePerPc'].value;
-    const retailPrice = this.productForm.controls['srpPerPc'].value;
+    const capital = this.productForm.controls[this.constantService.TBL_HEADER_PRC_TS].value;
+    const retailPrice = this.productForm.controls[this.constantService.TBL_HEADER_SRP_TS].value;
     if (capital != '' && retailPrice != '' && capital >= retailPrice) {
-      this.productForm.controls['srpPerPc'].setValue('');
-      this.productForm.controls['pricePerPc'].setValue('');
-      this.notifyMessage = "Capital should be smaller than SRP.";
-      this.notifyStatus = "ERROR";
+      this.productForm.controls[this.constantService.TBL_HEADER_SRP_TS].setValue('');
+      this.productForm.controls[this.constantService.TBL_HEADER_PRC_TS].setValue('');
+      this.notifyMessage = this.messageService.ERROR_CAPITAL_SRP;
+      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
       this.openNotifyDialog();
     } else {
-      this.productForm.controls['expiryDate'].enable();
+      this.productForm.controls[this.constantService.TBL_HEADER_EXPR_DATE_TS].enable();
       const convertedExpiryDate = moment(this.productForm.value.expiryDateTemp).format('YYYY-MM-DD');
       this.productForm.patchValue({ expiryDate: convertedExpiryDate });
-      this.productService.setCategory(JSON.stringify(this.productForm.get('category')!.value));
+      this.productService.setCategory(JSON.stringify(this.productForm.get(this.constantService.CONST_CATEGORY)!.value));
       if(this.productForm.valid) {
         this.productService.addProduct(this.productForm.value)
           .subscribe({
             next:()=>{
-              this.notifyMessage = 'Product Added Successfully';
-              this.notifyStatus = 'OK';
+              this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
+              this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
               this.openNotifyDialog();
               this.productForm.reset();
-              this.dialogRef.close('save');
+              this.dialogRef.close(this.constantService.CONST_SAVE);
             },
             error:()=>{
-              this.notifyMessage = 'Error Adding Product';
-              this.notifyStatus = 'ERROR';
+              this.notifyMessage = this.messageService.ERROR_PRODUCT_ADD;
+              this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
               this.openNotifyDialog();
             }
           })
       }
       else {
-        this.notifyMessage = 'Missing required fields.';
-        this.notifyStatus = 'ERROR';
+        this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD;
+        this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
         this.openNotifyDialog();
       }
     }
@@ -79,7 +83,7 @@ export class AddSingleProductFormComponent implements OnInit {
 
   openNotifyDialog() {
     this.dialog.open(NotifyPromptComponent, {
-      width: '20%',
+      width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
     });
   }
