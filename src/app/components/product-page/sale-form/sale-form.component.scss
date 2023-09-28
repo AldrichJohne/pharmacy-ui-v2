@@ -1,0 +1,25 @@
+mat-form-field{
+  width: 100%;
+}
+
+/* Hide the transaction date form control */
+mat-form-field[formControlName="transactionDate"] {
+  display: none;
+}
+
+.divider-radio-group {
+  margin: 20px 10px 10px 10px;
+}
+
+.discounted-checkbox {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+}
+
+.sale-dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
