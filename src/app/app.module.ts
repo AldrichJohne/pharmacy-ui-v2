@@ -35,6 +35,7 @@ import { DeletePromptProductsComponent } from './components/product-page/delete-
 import { UpdateProductFormComponent } from './components/product-page/update-product-form/update-product-form.component';
 import { AddMultipleProductsPageComponent } from './components/product-page/add-multiple-products-page/add-multiple-products-page.component';
 import { ConfirmationPromptComponent } from './components/product-page/add-multiple-products-page/confirmation-prompt/confirmation-prompt.component';
+import {SaleFormComponent} from "./components/product-page/sale-form/sale-form.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ConfirmationPromptComponent } from './components/product-page/add-multi
     DeletePromptProductsComponent,
     UpdateProductFormComponent,
     AddMultipleProductsPageComponent,
-    ConfirmationPromptComponent
+    ConfirmationPromptComponent,
+    SaleFormComponent
   ],
   imports: [
     BrowserModule,

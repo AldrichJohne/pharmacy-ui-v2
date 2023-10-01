@@ -1,6 +1,14 @@
 <h1 mat-dialog-title>{{productSaleFormTitle}}</h1>
 <div mat-dialog-content>
   <form [formGroup]="productSaleForm">
+
+    <div style="display: flex; justify-content: space-between; padding: 10px 10px 10px 10px">
+      <mat-radio-group aria-label="Select an option" formControlName="newInvoice">
+        <mat-radio-button value="false">NO</mat-radio-button>
+        <mat-radio-button value="true" style="padding-left: 50px;">NEW INVOICE</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
     <div style="display: flex; justify-content: space-between;">
       <mat-form-field appearance="outline" style="flex: 1;">
         <mat-label>Quantity</mat-label>
@@ -59,5 +67,5 @@
 
 <div mat-dialog-action class="sale-dialog-buttons">
   <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
-  <button style="margin-left: 8px;" mat-raised-button color="primary" [disabled]="disableSellButton" (click)="sellBatchProduct()">SELL</button>
+  <button style="margin-left: 8px;" mat-raised-button color="primary" [disabled]="disableSellButton" (click)="addToCart()">ADD</button>
 </div>

@@ -10,6 +10,8 @@ import {UpdateProductFormComponent} from "./update-product-form/update-product-f
 import {Router} from "@angular/router";
 import {MessagesService} from "../../shared/services/messages.service";
 import {ConstantsService} from "../../shared/services/constants.service";
+import {SaleFormComponent} from "./sale-form/sale-form.component";
+import {CashierUtilService} from "./sale-form/cashier-util.service";
 
 @Component({
   selector: 'app-product-page',
@@ -18,7 +20,7 @@ import {ConstantsService} from "../../shared/services/constants.service";
 })
 export class ProductPageComponent implements OnInit {
   productStatus = '';
-  currentCartValue = 1;
+  currentCartValue = 0;
 
   productColumns: string[] = [
     this.constantService.TBL_HEADER_CASHIER_TS,
@@ -41,11 +43,14 @@ export class ProductPageComponent implements OnInit {
   constructor(private productService: ProductsService,
               private messageService: MessagesService,
               private constantService: ConstantsService,
+              private cashierUtilService: CashierUtilService,
               private dialog : MatDialog,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.getProducts()
+    this.getProducts();
+    this.cashierUtilService.refreshCart();
+    this.currentCartValue = this.cashierUtilService.cartLength;
   }
 
   getProducts() {
@@ -104,6 +109,15 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
-  openSaleFrom(row : any) {}
+  openSaleFrom(row : any) {
+    this.dialog.open(SaleFormComponent,{
+      width: this.constantService.DIALOG_FORM_WIDTH,
+      data:row
+    }).afterClosed().subscribe( _val => {
+      this.cashierUtilService.refreshCart();
+      this.currentCartValue = this.cashierUtilService.cartLength;
+      console.log(this.currentCartValue)
+    })
+  }
 
 }

@@ -11,21 +11,18 @@ export class CashierUtilService {
   cartLength = 0;
 
   refreshCart() {
-    this.cartItems = []; // Clear the cart items before refreshing
-
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
+    this.cartItems = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
       let parsedObject: any;
       if (key !== null) {
-        const storedValue = sessionStorage.getItem(key);
+        const storedValue = localStorage.getItem(key);
 
         if (storedValue != null) {
           parsedObject = JSON.parse(storedValue);
-          console.log(parsedObject);
         }
 
         this.cartItems.push(parsedObject);
-        console.log(this.cartItems)
       }
     }
     this.computeTotalSrp();
@@ -46,7 +43,7 @@ export class CashierUtilService {
     this.cartTotalSrp = totalSrp;
   }
 
-  private getCartLength() {
-    this.cartLength = this.cartItems.length - 1;
+  public getCartLength() {
+    this.cartLength = this.cartItems.length;
   }
 }
