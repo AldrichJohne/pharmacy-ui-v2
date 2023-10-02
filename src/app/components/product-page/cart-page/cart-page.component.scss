@@ -1,0 +1,86 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    height: 85%;
+
+    .table-wrapper {
+      width: 85%;
+      flex-grow: 1;
+      height: 90%;
+      overflow-y: scroll;
+
+      table {
+        width: 100%;
+
+        th {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+          color: white;
+          background-color: mediumpurple;
+        }
+
+        td {
+        }
+      }
+    }
+
+    .side-form {
+      width: 15%;
+      padding-left: 20px;
+
+      .label{
+
+      }
+
+      .payment-form-field{
+
+      }
+
+      .cart-form-buttons-1 {
+        height: 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+          width: 50%;
+          margin-right: 10px;
+        }
+      }
+
+      .cart-form-buttons-2 {
+        height: 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+          width: 50%;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  .footer {
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .space {
+      width: 80%;
+    }
+
+    .other-button-wrapper {
+      width: 20%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}

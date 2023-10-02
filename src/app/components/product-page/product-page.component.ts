@@ -98,7 +98,9 @@ export class ProductPageComponent implements OnInit {
     this.router.navigate(["products/add-multiple"]);
   }
 
-  openCart() {}
+  openCart() {
+    this.router.navigate(["products/cart"]);
+  }
 
   applyFilterProducts(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

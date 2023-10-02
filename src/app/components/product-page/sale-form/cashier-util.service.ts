@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class CashierUtilService {
 
   cartItems: any[] = [];
-  cartTotalSrp = 0;
+  cartTotalPrice = 0;
   discountRate = .8;
   cartLength = 0;
 
@@ -22,15 +22,19 @@ export class CashierUtilService {
           parsedObject = JSON.parse(storedValue);
         }
 
+        const newField = 'key';
+
+        parsedObject[newField] = key;
+
         this.cartItems.push(parsedObject);
       }
     }
-    this.computeTotalSrp();
+    this.computeTotalPrice();
     this.getCartLength();
   }
 
 
-  private computeTotalSrp() {
+  private computeTotalPrice() {
     let totalSrp = 0;
     for (const element of this.cartItems) {
       if (element.isDiscounted === false) {
@@ -40,7 +44,7 @@ export class CashierUtilService {
         totalSrp = totalSrp + ((element.srp * element.soldQuantity) * this.discountRate)
       }
     }
-    this.cartTotalSrp = totalSrp;
+    this.cartTotalPrice = totalSrp;
   }
 
   public getCartLength() {

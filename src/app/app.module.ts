@@ -36,6 +36,7 @@ import { UpdateProductFormComponent } from './components/product-page/update-pro
 import { AddMultipleProductsPageComponent } from './components/product-page/add-multiple-products-page/add-multiple-products-page.component';
 import { ConfirmationPromptComponent } from './components/product-page/add-multiple-products-page/confirmation-prompt/confirmation-prompt.component';
 import {SaleFormComponent} from "./components/product-page/sale-form/sale-form.component";
+import { CartPageComponent } from './components/product-page/cart-page/cart-page.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {SaleFormComponent} from "./components/product-page/sale-form/sale-form.c
     UpdateProductFormComponent,
     AddMultipleProductsPageComponent,
     ConfirmationPromptComponent,
-    SaleFormComponent
+    SaleFormComponent,
+    CartPageComponent
   ],
   imports: [
     BrowserModule,
