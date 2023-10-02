@@ -8,11 +8,15 @@ import {UrlService} from "../../../shared/services/url.service";
 export class CashierHttpService {
 
   constructor(private http : HttpClient,
-              public urlService: UrlService) { }
+              private urlService: UrlService) { }
 
   productSale(data : any, id : number, discountSwitch: any) {
     const params = { discountSwitch };
     return this.http.post(this.urlService.backendUrl + '/cashier/product/sell/' + id, data, {params})
+  }
+
+  batchProductSale(data : any) {
+    return this.http.post(this.urlService.backendUrl + '/cashier/v2/product/batch/sell', data)
   }
 
 }
