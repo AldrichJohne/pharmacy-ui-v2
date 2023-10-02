@@ -27,6 +27,22 @@ export class ConstantsService {
   CONST_EXPR_DATE_TEMP_TS = 'expiryDateTemp';
   CONST_SAVE = 'save';
   CONST_CLASS_ID = 'classId';
+  CONST_PHARMACIST = 'pharmacist';
+  CONST_PRODUCT_ID = 'productId'
+  CONST_SALE = 'sale';
+  CONST_NEW_INVOICE = 'newInvoice';
+  CONST_SOLD_QTY = 'soldQuantity';
+  CONST_TXN_DATE_TEMP = 'transactionDateTemp';
+  CONST_TXN_DATE = 'transactionDate';
+  CONS_DISCOUNTED = 'isDiscounted';
+  CONS_CLASSIFICATION = 'classification';
+  CONST_PRODUCT_NAME = 'productName';
+  CONST_PRICE = 'price';
+  CONST_SRP = 'srp';
+  CONST_CLASS = 'class';
+  CONST_QTY = 'quantity';
+  CONST_ACTION = 'actions';
+  CONST_PAYMENT = 'payment';
 
   BUTTON_TRIGGER_SAVE = 'SAVE_BUTTON';
   BUTTON_TRIGGER_CLEAR = 'CLEAR_TABLE_BUTTON';
@@ -34,6 +50,7 @@ export class ConstantsService {
 
   CATEGORY_BRANDED = 'Branded';
   CATEGORY_GENERIC = 'Generic';
+  CATEGORY_GENERIC_SMALL = 'generics';
   CATEGROY_GALENICALS = 'Galenical';
   CATEGORY_ICE_CREAM = 'Ice Cream';
   CATEGORY_OTHER = 'Others';
