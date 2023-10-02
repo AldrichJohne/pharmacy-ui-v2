@@ -39,6 +39,10 @@ export class ConstantsService {
   CONST_PRODUCT_NAME = 'productName';
   CONST_PRICE = 'price';
   CONST_SRP = 'srp';
+  CONST_CLASS = 'class';
+  CONST_QTY = 'quantity';
+  CONST_ACTION = 'actions';
+  CONST_PAYMENT = 'payment';
 
   BUTTON_TRIGGER_SAVE = 'SAVE_BUTTON';
   BUTTON_TRIGGER_CLEAR = 'CLEAR_TABLE_BUTTON';

@@ -9,6 +9,9 @@ export class MessagesService {
   public readonly OK_PRODUCT_UPDATE = 'Product updated successfully.';
   public readonly OK_TABLE_CLEARED = 'Table is cleared.';
   public readonly OK_PRODUCT_CART = 'Added to cart successfully';
+  public readonly OK_SOLD = 'Product Sell Success';
+  public readonly ERROR_PAYMENT_NOT_ENOUGH = 'Payment should be higher or equals to total price';
+  public readonly ERROR_SEll = 'Error Saving Sale';
   public readonly ERROR_PRODUCT_ADD = 'Error adding product.';
   public readonly ERROR_PRODUCT_UPDATE = 'Error updating product.';
   public readonly ERROR_REQUIRED_FIELD = 'Missing required field(s).';
