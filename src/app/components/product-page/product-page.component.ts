@@ -63,7 +63,6 @@ export class ProductPageComponent implements OnInit {
         },
         error:()=>{
           this.productStatus = this.messageService.ERROR_PRODUCT_FETCH;
-          console.log(this.productStatus);
         }
       })
   }
@@ -118,7 +117,6 @@ export class ProductPageComponent implements OnInit {
     }).afterClosed().subscribe( _val => {
       this.cashierUtilService.refreshCart();
       this.currentCartValue = this.cashierUtilService.cartLength;
-      console.log(this.currentCartValue)
     })
   }
 
