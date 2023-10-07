@@ -19,8 +19,8 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
-      this.previousUrl = this.currentUrl;
       this.currentUrl = event.url;
+      this.previousUrl = this.currentUrl; //added to fix back button
       this.urlService.setPreviousUrl(this.previousUrl);
     });
   }

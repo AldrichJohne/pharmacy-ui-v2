@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {LoginService} from "./login.service";
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit{
 
   username: string = "";
   password: string = "";
@@ -14,22 +15,16 @@ export class LoginPageComponent implements OnInit {
   hidePassword: boolean = true;
   loginStatus = 1;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private loginService: LoginService) { }
 
   ngOnInit(): void {
-  }
-
-  submit() {
-    console.log("Username is " + this.username);
-    console.log("Password is " + this.password);
-
-    if (this.username == "nova" && this.password == "nova") {
-      this.loginStatus = 0;
-    } else {
-      this.loginStatus = 1;
+        this.loginService.logoutUser();
     }
 
-    if (this.loginStatus == 0) {
+  submit() {
+    this.loginService.login(this.username, this.password)
+    if (this.loginService.isUserLoggedIn()) {
       this.router.navigate(["products"])
     } else {
       setTimeout(() => {
