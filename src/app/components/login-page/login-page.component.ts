@@ -1,50 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginService} from "./login.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MessagesService} from "../../shared/services/messages.service";
+import {ConstantsService} from "../../shared/services/constants.service";
+import {MatDialog} from "@angular/material/dialog";
+import {NotifyPromptComponent} from "../../shared/notify-prompt/notify-prompt.component";
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit{
 
-  username: string = "";
-  password: string = "";
-  showLoginStatusMessage: boolean = false;
-  hidePassword: boolean = true;
-  loginStatus = 1;
+  loginForm!: FormGroup;
+  hidePassword = true;
 
-  constructor(private router: Router,
-              private loginService: LoginService) { }
+  constructor(private formBuilder : FormBuilder,
+              private loginService: LoginService,
+              private router: Router,
+              private dialog : MatDialog,
+              private constantService: ConstantsService,
+              private messageService: MessagesService) { }
 
   ngOnInit(): void {
-        this.loginService.logoutUser();
-    }
+    this.loginService.logoutUser();
+    this.loginForm = this.formBuilder.group({
+      username: ['',Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   submit() {
-    this.loginService.login(this.username, this.password)
+    this.loginService.login(
+      this.loginForm.controls['username'].value,
+      this.loginForm.controls['password'].value)
     if (this.loginService.isUserLoggedIn()) {
+      this.loginForm.reset();
       this.router.navigate(["products"])
     } else {
+      this.openNotifyDialog(
+        this.messageService.ERROR_INVALID_CRED,
+        this.constantService.STATUS_NOTIFY_ERROR)
       setTimeout(() => {
-        this.clear();
+        this.loginForm.reset();
       }, 1000);
     }
-
   }
 
-  clear() {
-    this.username = "";
-    this.password = "";
-    this.showLoginStatusMessage = true;
-
-    setTimeout(() => {
-      this.showLoginStatusMessage = false;
-    }, 3000);
+  openNotifyDialog(message: string, status: string) {
+    this.dialog.open(NotifyPromptComponent, {
+      width: this.constantService.DIALOG_PROMPT_WIDTH,
+      data: { notifyMessage: message, notifyStatus: status }
+    });
   }
 
-  togglePasswordVisibility() {
-    this.hidePassword = !this.hidePassword;
-  }
 }
