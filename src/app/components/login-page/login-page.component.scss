@@ -1,0 +1,48 @@
+/* Styles for the login form */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  margin: 0 auto;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 15px;
+}
+
+mat-form-field {
+  flex: 1;
+}
+
+.form-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  margin-left: 8px;
+}
+
+.custom-form-field {
+  width: 100%;
+  max-width: 300px; /* Adjust the maximum width as needed */
+  margin-bottom: 15px;
+}

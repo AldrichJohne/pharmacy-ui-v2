@@ -33,7 +33,7 @@ export class RouterGuard implements CanActivate {
 
   }
 
-  openNotifyDialog(message: String, status: String) {
+  openNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: { notifyMessage: message, notifyStatus: status }
