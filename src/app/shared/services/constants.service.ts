@@ -18,7 +18,7 @@ export class ConstantsService {
   TBL_HEADER_ACTION_TS = 'action';
 
   DIALOG_FORM_WIDTH = '50%';
-  DIALOG_PROMPT_WIDTH = '20%';
+  DIALOG_PROMPT_WIDTH = '300px';
 
   STATUS_NOTIFY_OK = 'OK';
   STATUS_NOTIFY_ERROR = 'ERROR';
