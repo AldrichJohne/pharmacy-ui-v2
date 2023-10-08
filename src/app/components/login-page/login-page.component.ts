@@ -25,6 +25,7 @@ export class LoginPageComponent implements OnInit{
               private messageService: MessagesService) { }
 
   ngOnInit(): void {
+    this.loginForm.reset();
     this.loginService.logoutUser();
     this.loginForm = this.formBuilder.group({
       username: ['',Validators.required],
