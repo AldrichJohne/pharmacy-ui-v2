@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {ProductsService} from "./products.service";
+import {ProductsHttpService} from "./services/products-http.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AddSingleProductFormComponent} from "./add-single-product-form/add-single-product-form.component";
 import {DeletePromptProductsComponent} from "./delete-prompt-products/delete-prompt-products.component";
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 import {MessagesService} from "../../shared/services/messages.service";
 import {ConstantsService} from "../../shared/services/constants.service";
 import {SaleFormComponent} from "./sale-form/sale-form.component";
-import {CashierUtilService} from "./sale-form/cashier-util.service";
+import {CashierUtilService} from "./services/cashier-util.service";
 
 @Component({
   selector: 'app-product-page',
@@ -40,7 +40,7 @@ export class ProductPageComponent implements OnInit {
   @ViewChild('productsPaginator') productsPaginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductsService,
+  constructor(private productService: ProductsHttpService,
               private messageService: MessagesService,
               private constantService: ConstantsService,
               private cashierUtilService: CashierUtilService,
@@ -99,6 +99,10 @@ export class ProductPageComponent implements OnInit {
 
   openCart() {
     this.router.navigate(["products/cart"]);
+  }
+
+  openProductSoldPage() {
+    this.router.navigate(["products/sold"]);
   }
 
   applyFilterProducts(event: Event) {

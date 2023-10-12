@@ -38,6 +38,8 @@ import { ConfirmationPromptComponent } from './components/product-page/add-multi
 import {SaleFormComponent} from "./components/product-page/sale-form/sale-form.component";
 import { CartPageComponent } from './components/product-page/cart-page/cart-page.component';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
+import { ProductsSoldPageComponent } from './components/product-page/products-sold-page/products-sold-page.component';
+import { DeletePromptSoldProductsComponent } from './components/product-page/products-sold-page/delete-prompt-sold-products/delete-prompt-sold-products.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ErrorPageComponent } from './shared/error-page/error-page.component';
     ConfirmationPromptComponent,
     SaleFormComponent,
     CartPageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    ProductsSoldPageComponent,
+    DeletePromptSoldProductsComponent
   ],
   imports: [
     BrowserModule,

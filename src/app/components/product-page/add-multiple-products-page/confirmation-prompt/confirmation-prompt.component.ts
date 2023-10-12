@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProductPageUtilService} from "../../product-page-util.service";
+import {ProductsUtilService} from "../../services/products-util.service";
 
 @Component({
   selector: 'app-confirmation-prompt',
@@ -15,7 +15,7 @@ export class ConfirmationPromptComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data : any,
               private dialogRef : MatDialogRef<ConfirmationPromptComponent>,
-              public productPageUtilService: ProductPageUtilService) { }
+              public productPageUtilService: ProductsUtilService) { }
 
   ngOnInit(): void {
     this.message = this.data.message;

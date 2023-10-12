@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {UrlService} from "../../shared/services/url.service";
+import {UrlService} from "../../../shared/services/url.service";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class ProductsHttpService {
 
   classification = '';
 

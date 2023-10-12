@@ -6,12 +6,14 @@ import {AddMultipleProductsPageComponent} from "./components/product-page/add-mu
 import {CartPageComponent} from "./components/product-page/cart-page/cart-page.component";
 import {RouterGuard} from "./shared/guard/router-guard";
 import {ErrorPageComponent} from "./shared/error-page/error-page.component";
+import {ProductsSoldPageComponent} from "./components/product-page/products-sold-page/products-sold-page.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent},
   { path: 'products', component: ProductPageComponent, canActivate: [RouterGuard]},
   { path: 'products/add-multiple', component: AddMultipleProductsPageComponent, canActivate: [RouterGuard]},
   { path: 'products/cart', component: CartPageComponent, canActivate: [RouterGuard]},
+  { path: 'products/sold', component: ProductsSoldPageComponent, canActivate: [RouterGuard]},
   { path: 'error', component: ErrorPageComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

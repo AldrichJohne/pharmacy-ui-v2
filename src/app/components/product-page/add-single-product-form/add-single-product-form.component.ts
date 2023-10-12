@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProductsService} from "../products.service";
+import {ProductsHttpService} from "../services/products-http.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
@@ -20,7 +20,7 @@ export class AddSingleProductFormComponent implements OnInit {
   notifyStatus = '';
 
   constructor(private formBuilder : FormBuilder,
-              private productService: ProductsService,
+              private productService: ProductsHttpService,
               private messageService: MessagesService,
               private constantService: ConstantsService,
               private dialogRef : MatDialogRef<AddSingleProductFormComponent>,
