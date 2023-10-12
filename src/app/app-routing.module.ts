@@ -7,6 +7,7 @@ import {CartPageComponent} from "./components/product-page/cart-page/cart-page.c
 import {RouterGuard} from "./shared/guard/router-guard";
 import {ErrorPageComponent} from "./shared/error-page/error-page.component";
 import {ProductsSoldPageComponent} from "./components/product-page/products-sold-page/products-sold-page.component";
+import {ReportsPageComponent} from "./components/product-page/reports-page/reports-page.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'products/add-multiple', component: AddMultipleProductsPageComponent, canActivate: [RouterGuard]},
   { path: 'products/cart', component: CartPageComponent, canActivate: [RouterGuard]},
   { path: 'products/sold', component: ProductsSoldPageComponent, canActivate: [RouterGuard]},
+  { path: 'products/reports', component: ReportsPageComponent, canActivate: [RouterGuard]},
   { path: 'error', component: ErrorPageComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

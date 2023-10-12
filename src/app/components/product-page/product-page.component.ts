@@ -105,6 +105,10 @@ export class ProductPageComponent implements OnInit {
     this.router.navigate(["products/sold"]);
   }
 
+  openReportsPage() {
+    this.router.navigate(["products/reports"]);
+  }
+
   applyFilterProducts(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.productsDataSource.filter = filterValue.trim().toLowerCase();

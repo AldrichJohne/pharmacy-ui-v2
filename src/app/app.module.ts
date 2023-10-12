@@ -40,6 +40,7 @@ import { CartPageComponent } from './components/product-page/cart-page/cart-page
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { ProductsSoldPageComponent } from './components/product-page/products-sold-page/products-sold-page.component';
 import { DeletePromptSoldProductsComponent } from './components/product-page/products-sold-page/delete-prompt-sold-products/delete-prompt-sold-products.component';
+import { ReportsPageComponent } from './components/product-page/reports-page/reports-page.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { DeletePromptSoldProductsComponent } from './components/product-page/pro
     CartPageComponent,
     ErrorPageComponent,
     ProductsSoldPageComponent,
-    DeletePromptSoldProductsComponent
+    DeletePromptSoldProductsComponent,
+    ReportsPageComponent
   ],
   imports: [
     BrowserModule,
