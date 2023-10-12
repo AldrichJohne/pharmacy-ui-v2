@@ -19,4 +19,12 @@ export class CashierHttpService {
     return this.http.post(this.urlService.backendUrl + '/cashier/v2/product/batch/sell', data)
   }
 
+  getProductSales() {
+    return this.http.get<any>(this.urlService.backendUrl + '/cashier/products/sell');
+  }
+
+  deleteProductSoldRecord(id : number) {
+    return this.http.delete<any>(this.urlService.backendUrl + '/cashier/product/sell/' + id)
+  }
+
 }

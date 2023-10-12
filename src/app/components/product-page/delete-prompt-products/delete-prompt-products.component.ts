@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ProductsService} from "../products.service";
+import {ProductsHttpService} from "../services/products-http.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 import {MessagesService} from "../../../shared/services/messages.service";
@@ -16,7 +16,7 @@ export class DeletePromptProductsComponent implements OnInit {
   notifyMessage = '';
   notifyStatus = '';
 
-  constructor(private productService: ProductsService,
+  constructor(private productService: ProductsHttpService,
               private messageService: MessagesService,
               private constantService: ConstantsService,
               @Inject(MAT_DIALOG_DATA) public deleteData : any,

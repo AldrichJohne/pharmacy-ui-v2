@@ -1,14 +1,14 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material/table";
-import {ProductsService} from "../products.service";
+import {ProductsHttpService} from "../services/products-http.service";
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationPromptComponent} from "./confirmation-prompt/confirmation-prompt.component";
 import {Subscription} from "rxjs";
-import {ProductPageUtilService} from "../product-page-util.service";
+import {ProductsUtilService} from "../services/products-util.service";
 import {MessagesService} from "../../../shared/services/messages.service";
 import {ConstantsService} from "../../../shared/services/constants.service";
 
@@ -31,13 +31,13 @@ export class AddMultipleProductsPageComponent implements OnInit {
   dataSource = new MatTableDataSource(this.productList);
 
   constructor(private cdRef: ChangeDetectorRef,
-              private productService: ProductsService,
+              private productService: ProductsHttpService,
               private messageService: MessagesService,
               private constantService: ConstantsService,
               private formBuilder : FormBuilder,
               private dialog : MatDialog,
               private router: Router,
-              public productPageUtilService: ProductPageUtilService) {
+              public productPageUtilService: ProductsUtilService) {
     this.subscription = this.productPageUtilService.confirmationPromptTrigger.subscribe(
       message => {
         switch (message) {

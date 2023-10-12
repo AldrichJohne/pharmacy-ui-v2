@@ -3,8 +3,8 @@ import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt
 import * as moment from 'moment';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CashierHttpService} from "./cashier-http.service";
-import {CashierUtilService} from "./cashier-util.service";
+import {CashierHttpService} from "../services/cashier-http.service";
+import {CashierUtilService} from "../services/cashier-util.service";
 import {ConstantsService} from "../../../shared/services/constants.service";
 import {MessagesService} from "../../../shared/services/messages.service";
 

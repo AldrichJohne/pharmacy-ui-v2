@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProductsService} from "../products.service";
+import {ProductsHttpService} from "../services/products-http.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MessagesService} from "../../../shared/services/messages.service";
 
@@ -32,7 +32,7 @@ export class UpdateProductFormComponent implements OnInit {
               private dialogRef: MatDialogRef<UpdateProductFormComponent>,
               private dialog: MatDialog,
               private formBuilder: FormBuilder,
-              private productService: ProductsService,
+              private productService: ProductsHttpService,
               private messageService: MessagesService) {
   }
 

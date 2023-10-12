@@ -25,26 +25,27 @@
       align-items: center;
 
       .menu-button {
-        background-color: mediumpurple;
-        color: white;
+        background-color: white;
+        color: mediumpurple;
       }
 
       .cart-button {
         margin-left: 10px;
-        background-color: mediumpurple;
+        background-color: white;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: mediumpurple;
 
         .cart-icon {
           font-size: 2rem;
           margin-right: 0.5rem;
-          color: white;
+          color: mediumpurple;
         }
 
         .exponent {
           font-size: 1rem;
-          color: white;
+          color: mediumpurple;
         }
       }
     }
