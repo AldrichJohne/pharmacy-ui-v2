@@ -13,8 +13,6 @@ import {ConstantsService} from "../../../shared/services/constants.service";
 export class DeletePromptProductsComponent implements OnInit {
 
   productName = '';
-  notifyMessage = '';
-  notifyStatus = '';
 
   constructor(private productService: ProductsHttpService,
               private messageService: MessagesService,
@@ -31,24 +29,20 @@ export class DeletePromptProductsComponent implements OnInit {
     return this.productService.deleteProduct(this.deleteData.id)
       .subscribe({
         next: () => {
-          this.notifyMessage = this.messageService.OK_PRODUCT_DELETE;
-          this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-          this.OpenNotifyDialog();
+          this.OpenNotifyDialog(this.messageService.SUCCESS_PRODUCT_DELETE, 'OK');
           this.dialogRef.close()
         },
         error:()=>{
-          this.notifyMessage = this.messageService.ERROR_PRODUCT_DELETE;
-          this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-          this.OpenNotifyDialog();
+          this.OpenNotifyDialog(this.messageService.ERROR_FAILED_TO_DELETE_PRODUCT, 'ERROR');
           this.dialogRef.close()
         }
       })
   }
 
-  OpenNotifyDialog() {
+  OpenNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 

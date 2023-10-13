@@ -23,7 +23,7 @@ export class RouterGuard implements CanActivate {
     if (!this.loginService.isUserLoggedIn()) {
       this.openNotifyDialog(
         "Please login to enter.",
-        this.constantService.STATUS_NOTIFY_ERROR
+        'ERROR'
       )
       this.router.navigate(["login"],{ queryParams: { reason: 'unauthenticated'} });
       return false;

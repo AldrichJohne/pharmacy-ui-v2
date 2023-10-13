@@ -29,15 +29,15 @@ export class DeletePromptSoldProductsComponent {
       .subscribe({
         next: () => {
           this.OpenNotifyDialog(
-            this.messageService.OK_PRODUCT_DELETE,
-            this.constantService.STATUS_NOTIFY_OK
+            this.messageService.SUCCESS_PRODUCT_DELETE,
+            'OK'
           );
           this.dialogRef.close()
         },
         error:()=>{
           this.OpenNotifyDialog(
-            this.messageService.ERROR_PRODUCT_DELETE,
-            this.constantService.STATUS_NOTIFY_ERROR
+            this.messageService.ERROR_FAILED_TO_DELETE_PRODUCT,
+            'ERROR'
           );
           this.dialogRef.close()
         }

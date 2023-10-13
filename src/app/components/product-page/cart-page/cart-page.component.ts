@@ -22,22 +22,20 @@ export class CartPageComponent {
 
   cartForm!: FormGroup;
   displayedColumns: string[] = [
-    this.constantService.CONST_PRODUCT_ID,
-    this.constantService.TBL_HEADER_NAME_TS,
-    this.constantService.CONST_CLASS,
-    this.constantService.CONST_PRICE,
-    this.constantService.CONST_SRP,
-    this.constantService.CONST_QTY,
-    this.constantService.CONS_DISCOUNTED,
-    this.constantService.CONST_PHARMACIST,
-    this.constantService.CONST_TXN_DATE,
-    this.constantService.CONST_ACTION];
+    'productId',
+    'name',
+    'class',
+    'price',
+    'srp',
+    'quantity',
+    'isDiscounted',
+    'pharmacist',
+    'transactionDate',
+    'actions'];
   dataSource = new MatTableDataSource(this.cashierUtilService.cartItems);
   totalPrice = 0;
   payment = 0;
   change = 0;
-  notifyMessage = '';
-  notifyStatus = '';
   businessName = '';
   businessAlias = '';
   businessAddress = '';
@@ -73,10 +71,10 @@ export class CartPageComponent {
     this.getBusinessInfo();
   }
 
-  openNotifyDialog() {
+  openNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 
@@ -96,13 +94,11 @@ export class CartPageComponent {
   }
 
   confirmPayment() {
-    if (this.cartForm.controls[this.constantService.CONST_PAYMENT].value < this.totalPrice) {
-      this.notifyMessage = this.messageService.ERROR_PAYMENT_NOT_ENOUGH;
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+    if (this.cartForm.controls['payment'].value < this.totalPrice) {
+      this.openNotifyDialog(this.messageService.ERROR_INSUFFICIENT_PAYMENT, 'ERROR');
       this.cartForm.reset();
     } else {
-      this.payment = this.cartForm.controls[this.constantService.CONST_PAYMENT].value;
+      this.payment = this.cartForm.controls['payment'].value;
       this.change = this.payment - this.totalPrice;
 
       this.cashierHttpService.batchProductSale(this.productsOnCart)
@@ -110,10 +106,9 @@ export class CartPageComponent {
           next:(res)=> {
             // @ts-ignore
             this.txnInvoice = res[0].invoiceCode;
+            this.generateReceipt();
             this.productSavedVerified = res;
-            this.notifyMessage = this.messageService.OK_SOLD;
-            this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-            this.openNotifyDialog();
+            this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_SOLD, 'OK');
             this.productsOnCart = res;
             this.cartForm.reset();
             this.receiptButtonStatus = false;
@@ -121,9 +116,7 @@ export class CartPageComponent {
             localStorage.clear();
             this.refreshCart();
           }, error: ()=> {
-            this.notifyMessage = this.messageService.ERROR_SEll;
-            this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-            this.openNotifyDialog();
+            this.openNotifyDialog(this.messageService.ERROR_FAILED_TO_SAVE_SALE, 'ERROR');
           }
         })
     }
@@ -213,18 +206,19 @@ export class CartPageComponent {
     try {
       doc.save(this.businessAlias + this.generateFormattedCurrentDateTime());
     } catch (error) {
-      this.notifyMessage = 'An error occurred while saving the PDF';
-      this.notifyStatus = 'ERROR';
-      this.openNotifyDialog();
+      this.openNotifyDialog(this.messageService.ERROR_FAILED_TO_SAVE_PDF, 'ERROR');
     }
   }
 
   generateVATAmount() {
     const totalAmount = this.totalPrice;
     const vatPercentage = this.vatRate;
+    console.log(totalAmount)
+    console.log(vatPercentage)
     const vatAmount = (totalAmount * vatPercentage) / (100 + vatPercentage);
     let unformattedVatSale = this.totalPrice - vatAmount;
     this.vatSale = unformattedVatSale.toFixed(2);
+    console.log(vatAmount.toFixed(2));
     return vatAmount.toFixed(2)
   }
 

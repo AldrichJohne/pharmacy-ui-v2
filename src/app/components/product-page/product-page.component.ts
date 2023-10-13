@@ -23,18 +23,18 @@ export class ProductPageComponent implements OnInit {
   currentCartValue = 0;
 
   productColumns: string[] = [
-    this.constantService.TBL_HEADER_CASHIER_TS,
-    this.constantService.TBL_HEADER_NAME_TS,
-    this.constantService.TBL_HEADER_CLASS_NAME_TS,
-    this.constantService.TBL_HEADER_REMAINING_STOCK_TS,
-    this.constantService.TBL_HEADER_TOTAL_STOCK_TS,
-    this.constantService.TBL_HEADER_SOLD_TS,
-    this.constantService.TBL_HEADER_PRC_TS,
-    this.constantService.TBL_HEADER_SRP_TS,
-    this.constantService.TBL_HEADER_GROSS_TS,
-    this.constantService.TBL_HEADER_PROFIT_TS,
-    this.constantService.TBL_HEADER_EXPR_DATE_TS,
-    this.constantService.TBL_HEADER_ACTION_TS];
+    'cashier',
+    'name',
+    'className',
+    'remainingStock',
+    'totalStock',
+    'sold',
+    'pricePerPc',
+    'srpPerPc',
+    'totalGross',
+    'profit',
+    'expiryDate',
+    'action'];
 
   productsDataSource!: MatTableDataSource<any>;
   @ViewChild('productsPaginator') productsPaginator!: MatPaginator;
@@ -60,9 +60,10 @@ export class ProductPageComponent implements OnInit {
           this.productsDataSource = new MatTableDataSource(res);
           this.productsDataSource.paginator = this.productsPaginator;
           this.productsDataSource.sort = this.sort;
+          this.checkProductStatus(res);
         },
         error:()=>{
-          this.productStatus = this.messageService.ERROR_PRODUCT_FETCH;
+          this.productStatus = this.messageService.ERROR_FAILED_TO_FETCH_PRODUCTS;
         }
       })
   }
@@ -71,7 +72,7 @@ export class ProductPageComponent implements OnInit {
     this.dialog.open(DeletePromptProductsComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: row
-    }).afterClosed().subscribe(val => {
+    }).afterClosed().subscribe(_val => {
       this.getProducts();
     })
   }
@@ -126,6 +127,23 @@ export class ProductPageComponent implements OnInit {
       this.cashierUtilService.refreshCart();
       this.currentCartValue = this.cashierUtilService.cartLength;
     })
+  }
+
+  checkProductStatus(response: any) {
+    for (const row of response) {
+      const givenExpiryDate = new Date(row.expiryDate);
+      const currentDate = new Date();
+      const timeDiff = givenExpiryDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if (daysDiff <= 0) {
+        row.disableCashier = true;
+        row.expiryStatus = 'expired';
+      }
+      if (row.remainingStock <= 0) {
+        row.disableCashier = true;
+        row.remainingStock = 0;
+      }
+    }
   }
 
 }
