@@ -6,6 +6,8 @@ import {CashierHttpService} from "../services/cashier-http.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DeletePromptSoldProductsComponent} from "./delete-prompt-sold-products/delete-prompt-sold-products.component";
 import {NotifyPromptComponent} from "../../../shared/notify-prompt/notify-prompt.component";
+import {Router} from "@angular/router";
+import {MessagesService} from "../../../shared/services/messages.service";
 
 @Component({
   selector: 'app-products-sold-page',
@@ -23,15 +25,13 @@ export class ProductsSoldPageComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private cashierService: CashierHttpService,
-              private dialog : MatDialog) {
+              private dialog : MatDialog,
+              private router: Router,
+              private messageService: MessagesService) {
   }
 
   ngOnInit(): void {
     this.getAllSales();
-  }
-
-  emitGetAllProducts() {
-    // this.shareEventService.refreshProductTab.next(true);
   }
 
   getAllSales() {
@@ -43,7 +43,7 @@ export class ProductsSoldPageComponent {
           this.dataSourceSales.sort = this.sort;
         },
         error:()=>{
-          this.openNotifyDialog("Error While Fetching The Product Sales", 'ERROR');
+          this.openNotifyDialog(this.messageService.ERROR_FAILED_TO_FETCH_SALE_RECORDS, 'ERROR');
         }
       })
   }
@@ -68,9 +68,17 @@ export class ProductsSoldPageComponent {
     this.dialog.open(DeletePromptSoldProductsComponent, {
       width: '20%',
       data: row
-    }).afterClosed().subscribe(val => {
+    }).afterClosed().subscribe(_val => {
       this.getAllSales();
-      this.emitGetAllProducts();
     })
   }
+
+  openProductsPage() {
+    this.router.navigate(["products"]);
+  }
+
+  openReportsPage() {
+    this.router.navigate(["products/reports"]);
+  }
+
 }

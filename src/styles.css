@@ -7,6 +7,7 @@
 
 body {
   font-family: 'MyCustomFont', sans-serif;
+  overflow-y: hidden;
 }
 
 

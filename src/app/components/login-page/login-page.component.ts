@@ -42,8 +42,8 @@ export class LoginPageComponent implements OnInit{
       this.router.navigate(["products"])
     } else {
       this.openNotifyDialog(
-        this.messageService.ERROR_INVALID_CRED,
-        this.constantService.STATUS_NOTIFY_ERROR)
+        this.messageService.ERROR_INVALID_CREDENTIALS,
+        'ERROR')
       setTimeout(() => {
         this.loginForm.reset();
       }, 1000);

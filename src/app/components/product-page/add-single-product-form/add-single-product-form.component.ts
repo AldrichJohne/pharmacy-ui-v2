@@ -38,53 +38,45 @@ export class AddSingleProductFormComponent implements OnInit {
       expiryDate:['']
     });
 
-    this.productForm.controls[this.constantService.TBL_HEADER_TOTAL_STOCK_TS].setValue(0);
-    this.productForm.controls[this.constantService.CONST_EXPR_DATE_TEMP_TS].setValue(this.currentDate);
+    this.productForm.controls['totalStock'].setValue(0);
+    this.productForm.controls['expiryDateTemp'].setValue(this.currentDate);
   }
 
   addProduct() {
-    const capital = this.productForm.controls[this.constantService.TBL_HEADER_PRC_TS].value;
-    const retailPrice = this.productForm.controls[this.constantService.TBL_HEADER_SRP_TS].value;
+    const capital = this.productForm.controls['pricePerPc'].value;
+    const retailPrice = this.productForm.controls['srpPerPc'].value;
     if (capital != '' && retailPrice != '' && capital >= retailPrice) {
-      this.productForm.controls[this.constantService.TBL_HEADER_SRP_TS].setValue('');
-      this.productForm.controls[this.constantService.TBL_HEADER_PRC_TS].setValue('');
-      this.notifyMessage = this.messageService.ERROR_CAPITAL_SRP;
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+      this.productForm.controls['srpPerPc'].setValue('');
+      this.productForm.controls['pricePerPc'].setValue('');
+      this.openNotifyDialog(this.messageService.ERROR_CAPITAL_GREATER_THAN_SRP, 'ERROR');
     } else {
-      this.productForm.controls[this.constantService.TBL_HEADER_EXPR_DATE_TS].enable();
+      this.productForm.controls['expiryDate'].enable();
       const convertedExpiryDate = moment(this.productForm.value.expiryDateTemp).format('YYYY-MM-DD');
       this.productForm.patchValue({ expiryDate: convertedExpiryDate });
-      this.productService.setCategory(JSON.stringify(this.productForm.get(this.constantService.CONST_CATEGORY)!.value));
+      this.productService.setCategory(JSON.stringify(this.productForm.get('category')!.value));
       if(this.productForm.valid) {
         this.productService.addProduct(this.productForm.value)
           .subscribe({
             next:()=>{
-              this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
-              this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-              this.openNotifyDialog();
+              this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_ADD, 'OK');
               this.productForm.reset();
-              this.dialogRef.close(this.constantService.CONST_SAVE);
+              this.dialogRef.close('save');
             },
             error:()=>{
-              this.notifyMessage = this.messageService.ERROR_PRODUCT_ADD;
-              this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-              this.openNotifyDialog();
+              this.openNotifyDialog(this.messageService.ERROR_FAILED_TO_ADD_PRODUCT, 'ERROR');
             }
           })
       }
       else {
-        this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD;
-        this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-        this.openNotifyDialog();
+        this.openNotifyDialog(this.messageService.ERROR_MISSING_REQUIRED_FIELDS, 'ERROR');
       }
     }
   }
 
-  openNotifyDialog() {
+  openNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 

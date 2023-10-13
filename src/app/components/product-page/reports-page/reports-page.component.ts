@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {ReportsHttpService} from "../services/reports-http.service";
 import * as moment from 'moment';
+import {MessagesService} from "../../../shared/services/messages.service";
+import {ConstantsService} from "../../../shared/services/constants.service";
 
 @Component({
   selector: 'app-reports-page',
@@ -31,6 +33,8 @@ export class ReportsPageComponent {
 
   constructor(private reportHttpService: ReportsHttpService,
               private formBuilder : FormBuilder,
+              private messageService: MessagesService,
+              private constantService: ConstantsService,
               private dialog : MatDialog) { }
 
   ngOnInit(): void {
@@ -54,7 +58,7 @@ export class ReportsPageComponent {
           this.setUpReport(res);
         },
         error:()=>{
-          const message = "Error Fetching Reports Date Range: " + convertedStartDate + " to " + convertedEndDate;
+          const message = this.messageService.ERROR_FAILED_TO_FETCH_REPORTS + convertedStartDate + " to " + convertedEndDate;
           this.OpenNotifyDialog(message, 'ERROR');
         }
       }
@@ -99,9 +103,9 @@ export class ReportsPageComponent {
     this.othersProfit = "0.00";
   }
 
-  OpenNotifyDialog(message: String, status: String) {
+  OpenNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
-      width: '20%',
+      width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: { notifyMessage: message, notifyStatus: status }
     });
   }

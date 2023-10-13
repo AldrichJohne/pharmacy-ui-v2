@@ -23,10 +23,6 @@ export class AddMultipleProductsPageComponent implements OnInit {
   subscription: Subscription;
   addProductForm!: FormGroup;
   currentDate = new Date();
-  notifyMessage = '';
-  notifyStatus = '';
-  confirmationMessage = '';
-  triggeredBy = '';
   displayedColumns: string[] = ['name', 'classId', 'totalStock', 'pricePerPc', 'srpPerPc', 'expiryDate', 'actions'];
   dataSource = new MatTableDataSource(this.productList);
 
@@ -41,26 +37,22 @@ export class AddMultipleProductsPageComponent implements OnInit {
     this.subscription = this.productPageUtilService.confirmationPromptTrigger.subscribe(
       message => {
         switch (message) {
-          case this.constantService.BUTTON_TRIGGER_SAVE:
+          case 'SAVE_BUTTON':
             this.saveProducts();
             this.productList = [];
             this.dataSource.data = this.productList;
-            this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
-            this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-            this.openNotifyDialog();
+            this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_ADD, 'OK');
             this.navigateToProducts();
             break;
-          case this.constantService.BUTTON_TRIGGER_CLOSE:
+          case 'CLOSE_PAGE_BUTTON':
             this.productList = [];
             this.dataSource.data = this.productList;
             this.navigateToProducts()
             break;
-          case this.constantService.BUTTON_TRIGGER_CLEAR:
+          case 'CLEAR_TABLE_BUTTON':
             this.productList = [];
             this.dataSource.data = this.productList;
-            this.notifyMessage = this.messageService.OK_TABLE_CLEARED;
-            this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-            this.openNotifyDialog();
+            this.openNotifyDialog(this.messageService.SUCCESS_TABLE_CLEARED, 'OK');
             break;
           default:
             break;
@@ -84,39 +76,35 @@ export class AddMultipleProductsPageComponent implements OnInit {
   }
 
   clearForm() {
-    this.addProductForm.controls[this.constantService.TBL_HEADER_NAME_TS].setValue('');
-    this.addProductForm.controls[this.constantService.TBL_HEADER_PRC_TS].setValue('');
-    this.addProductForm.controls[this.constantService.TBL_HEADER_SRP_TS].setValue('');
-    this.addProductForm.controls[this.constantService.TBL_HEADER_EXPR_DATE_TS].setValue('');
-    this.addProductForm.controls[this.constantService.CONST_CLASS_ID].setValue('');
-    this.addProductForm.controls[this.constantService.TBL_HEADER_TOTAL_STOCK_TS].setValue(0);
-    this.addProductForm.controls[this.constantService.CONST_EXPR_DATE_TEMP_TS].setValue(this.currentDate);
+    this.addProductForm.controls['name'].setValue('');
+    this.addProductForm.controls['pricePerPc'].setValue('');
+    this.addProductForm.controls['srpPerPc'].setValue('');
+    this.addProductForm.controls['expiryDate'].setValue('');
+    this.addProductForm.controls['classId'].setValue('');
+    this.addProductForm.controls['totalStock'].setValue(0);
+    this.addProductForm.controls['expiryDateTemp'].setValue(this.currentDate);
   }
 
   addProductToList() {
     if (this.addProductForm.invalid) {
-      this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+      this.openNotifyDialog(this.messageService.ERROR_MISSING_REQUIRED_FIELDS, 'ERROR');
     } else {
-      const capital = this.addProductForm.controls[this.constantService.TBL_HEADER_PRC_TS].value;
-      const retailPrice = this.addProductForm.controls[this.constantService.TBL_HEADER_SRP_TS].value;
+      const capital = this.addProductForm.controls['pricePerPc'].value;
+      const retailPrice = this.addProductForm.controls['srpPerPc'].value;
       if (capital >= retailPrice) {
-        this.addProductForm.controls[this.constantService.TBL_HEADER_SRP_TS].setValue('');
-        this.addProductForm.controls[this.constantService.TBL_HEADER_PRC_TS].setValue('');
-        this.notifyMessage = this.messageService.ERROR_CAPITAL_SRP;
-        this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-        this.openNotifyDialog();
+        this.addProductForm.controls['srpPerPc'].setValue('');
+        this.addProductForm.controls['pricePerPc'].setValue('');
+        this.openNotifyDialog(this.messageService.ERROR_CAPITAL_GREATER_THAN_SRP, 'ERROR');
       } else {
         const convertedExpiryDate = moment(this.addProductForm.value.expiryDateTemp).format('YYYY-MM-DD');
         this.addProductForm.patchValue({ expiryDate: convertedExpiryDate });
         const newProduct = {
-          name: this.addProductForm.controls[this.constantService.TBL_HEADER_NAME_TS].value,
-          totalStock: this.addProductForm.controls[this.constantService.TBL_HEADER_TOTAL_STOCK_TS].value,
-          pricePerPc: this.addProductForm.controls[this.constantService.TBL_HEADER_PRC_TS].value,
-          srpPerPc: this.addProductForm.controls[this.constantService.TBL_HEADER_SRP_TS].value,
-          expiryDate: this.addProductForm.controls[this.constantService.TBL_HEADER_EXPR_DATE_TS].value,
-          classId: this.addProductForm.controls[this.constantService.CONST_CLASS_ID].value,
+          name: this.addProductForm.controls['name'].value,
+          totalStock: this.addProductForm.controls['totalStock'].value,
+          pricePerPc: this.addProductForm.controls['pricePerPc'].value,
+          srpPerPc: this.addProductForm.controls['srpPerPc'].value,
+          expiryDate: this.addProductForm.controls['expiryDate'].value,
+          classId: this.addProductForm.controls['classId'].value,
         };
 
         this.productList.push(newProduct);
@@ -127,19 +115,19 @@ export class AddMultipleProductsPageComponent implements OnInit {
     }
   }
 
-  openNotifyDialog() {
+  openNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 
-  openConfirmationPrompt() {
+  openConfirmationPrompt(message: string, triggeredBy: string) {
     this.dialog.open(ConfirmationPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
       data: {
-        message: this.confirmationMessage,
-        triggeredBy: this.triggeredBy
+        message: message,
+        triggeredBy: triggeredBy
       }
     })
   }
@@ -154,25 +142,17 @@ export class AddMultipleProductsPageComponent implements OnInit {
 
   btnConfirmClearTable() {
     if (this.productList.length === 0) {
-      this.notifyMessage = this.messageService.ERROR_PRODUCT_ON_LIST;
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+      this.openNotifyDialog(this.messageService.ERROR_NO_PRODUCTS_IN_LIST, 'ERROR');
     } else {
-      this.triggeredBy = this.constantService.BUTTON_TRIGGER_CLEAR;
-      this.confirmationMessage = this.messageService.QUESTION_CLEAR_DATA;
-      this.openConfirmationPrompt();
+      this.openConfirmationPrompt(this.messageService.CONFIRM_CLEAR_DATA, 'CLEAR_TABLE_BUTTON');
     }
   }
 
   btnConfirmSave() {
     if (this.productList.length === 0) {
-      this.notifyMessage = this.messageService.ERROR_PRODUCT_ON_LIST;
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+      this.openNotifyDialog(this.messageService.ERROR_NO_PRODUCTS_IN_LIST, 'ERROR');
     } else {
-      this.triggeredBy = this.constantService.BUTTON_TRIGGER_SAVE;
-      this.confirmationMessage = this.messageService.QUESTION_PRODUCT_SAVE;
-      this.openConfirmationPrompt();
+      this.openConfirmationPrompt(this.messageService.CONFIRM_SAVE_PRODUCT, 'SAVE_BUTTON');
     }
   }
 
@@ -180,9 +160,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
     if (this.productList.length === 0) {
       this.navigateToProducts();
     } else {
-      this.triggeredBy = this.constantService.BUTTON_TRIGGER_CLOSE;
-      this.confirmationMessage = this.messageService.QUESTION_CLOSE_PAGE;
-      this.openConfirmationPrompt();
+      this.openConfirmationPrompt(this.messageService.CONFIRM_CLOSE_PAGE,'CLOSE_PAGE_BUTTON');
     }
   }
 
@@ -192,19 +170,19 @@ export class AddMultipleProductsPageComponent implements OnInit {
 
     for (let index = 0; index < fnlProductList.length; index++) {
       switch (this.dataSource.data[index].classId) {
-        case this.constantService.CATEGORY_BRANDED:
+        case 'Branded':
           this.dataSource.data[index].classId = 1;
           break;
-        case this.constantService.CATEGORY_GENERIC:
+        case 'Generic':
           this.dataSource.data[index].classId = 2;
           break;
-        case this.constantService.CATEGROY_GALENICALS:
+        case 'Galenical':
           this.dataSource.data[index].classId = 3;
           break;
-        case this.constantService.CATEGORY_ICE_CREAM:
+        case 'Ice Cream':
           this.dataSource.data[index].classId = 4;
           break;
-        case this.constantService.CATEGORY_OTHER:
+        case 'Others':
           this.dataSource.data[index].classId = 5;
           break;
       }
@@ -215,9 +193,7 @@ export class AddMultipleProductsPageComponent implements OnInit {
         next: ()=> {
           this.productList = [];
           this.dataSource.data = this.productList;
-          this.notifyMessage = this.messageService.OK_PRODUCT_ADD;
-          this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-          this.openNotifyDialog();
+          this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_ADD, 'OK');
         }
       })
   }

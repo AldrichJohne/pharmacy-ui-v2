@@ -25,9 +25,6 @@ export class UpdateProductFormComponent implements OnInit {
   profit = '';
   expiration = '';
 
-  notifyMessage = '';
-  notifyStatus = '';
-
   constructor(@Inject(MAT_DIALOG_DATA) public editData: any,
               private dialogRef: MatDialogRef<UpdateProductFormComponent>,
               private dialog: MatDialog,
@@ -67,9 +64,7 @@ export class UpdateProductFormComponent implements OnInit {
 
   updateProduct() {
     if (this.productForm.controls['totalStock'].value < this.sold) {
-      this.notifyMessage = this.messageService.ERROR_TOTAL_STOCK_SOLD;
-      this.notifyStatus = "ERROR";
-      this.openNotifyPrompt();
+      this.openNotifyPrompt(this.messageService.ERROR_TOTAL_STOCK_LESSER_THAN_SOLD, 'ERROR');
       this.productForm.controls['totalStock'].setValue(this.totalStock);
     } else {
       const convertedExpiryDate = moment(this.productForm.value.expiryDateTemp).format('YYYY-MM-DD');
@@ -82,25 +77,21 @@ export class UpdateProductFormComponent implements OnInit {
       this.productService.updateProduct(updatedProductValue, this.editData.id)
         .subscribe({
           next:()=>{
-            this.notifyMessage = this.messageService.OK_PRODUCT_UPDATE;
-            this.notifyStatus = 'OK';
-            this.openNotifyPrompt();
+            this.openNotifyPrompt(this.messageService.SUCCESS_PRODUCT_UPDATE, 'OK');
             this.productForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{
-            this.notifyMessage = this.messageService.ERROR_PRODUCT_UPDATE;
-            this.notifyStatus = 'ERROR';
-            this.openNotifyPrompt();
+            this.openNotifyPrompt(this.messageService.ERROR_FAILED_TO_UPDATE_PRODUCT, 'ERROR');
           }
         })
     }
   }
 
-  openNotifyPrompt() {
+  openNotifyPrompt(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: '20%',
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 

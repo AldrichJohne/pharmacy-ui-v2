@@ -51,79 +51,73 @@ export class SaleFormComponent implements OnInit {
   }
 
   addToCart() {
-    if (this.productSaleForm.controls[this.constantService.CONST_NEW_INVOICE].value === "true") {
+    if (this.productSaleForm.controls['newInvoice'].value === "true") {
       localStorage.clear();
     }
-    if (this.productSaleForm.controls[this.constantService.CONST_SOLD_QTY].value > +this.saleData.remainingStock) {
-      this.notifyMessage = this.messageService.ERROR_SELL_MORE_THAN_REMAINING;
-      this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-      this.openNotifyDialog();
+    if (this.productSaleForm.controls['soldQuantity'].value > +this.saleData.remainingStock) {
+      this.openNotifyDialog(this.messageService.ERROR_INSUFFICIENT_STOCK, 'ERROR');
       this.productSaleForm.reset();
       this.dialogRef.close();
     } else {
-      if (this.productSaleForm.controls[this.constantService.CONST_PHARMACIST].value == "" || this.productSaleForm.controls['soldQuantity'].value == "") {
-        this.notifyMessage = this.messageService.ERROR_REQUIRED_FIELD;
-        this.notifyStatus = this.constantService.STATUS_NOTIFY_ERROR;
-        this.openNotifyDialog();
+      if (this.productSaleForm.controls['pharmacist'].value == "" || this.productSaleForm.controls['soldQuantity'].value == "") {
+        this.openNotifyDialog(this.messageService.ERROR_MISSING_REQUIRED_FIELDS, 'ERROR');
         this.productSaleForm.reset();
         this.dialogRef.close();
       } else {
         this.enableRequiredAdditionalFields();
-        this.productSaleForm.controls[this.constantService.CONST_PRODUCT_ID].setValue(this.saleData.id);
+        this.productSaleForm.controls['productId'].setValue(this.saleData.id);
         const convertedTransactionDate = moment(this.productSaleForm.value.transactionDateTemp).format('YYYY-MM-DD');
         this.productSaleForm.patchValue({ transactionDate: convertedTransactionDate });
-        this.productSaleForm.controls[this.constantService.CONST_TXN_DATE_TEMP].disable();
+        this.productSaleForm.controls['transactionDateTemp'].disable();
 
         this.storeToCart(this.productSaleForm.value);
-        this.notifyMessage = this.messageService.OK_PRODUCT_CART;
-        this.notifyStatus = this.constantService.STATUS_NOTIFY_OK;
-        this.openNotifyDialog()
+        this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_ADDED_TO_CART, 'OK')
         this.productSaleForm.reset();
-        this.dialogRef.close(this.constantService.CONST_SALE);
+        this.dialogRef.close('sale');
       }
     }
   }
 
   private readyFields() {
-    if (this.saleData.plainClassificationDto.name !== this.constantService.CATEGORY_GENERIC_SMALL) {
-      this.productSaleForm.controls[this.constantService.CONS_DISCOUNTED].setValue(false);
-      this.productSaleForm.controls[this.constantService.CONS_DISCOUNTED].disable();
+    if (this.saleData.plainClassificationDto.name !== 'generics') {
+      this.productSaleForm.controls['isDiscounted'].setValue(false);
+      this.productSaleForm.controls['isDiscounted'].disable();
     }
     if (this.saleData.remainingStock <= 0) {
       this.disableSellButton = true;
-      this.productSaleForm.controls[this.constantService.CONST_SOLD_QTY].disable();
-      this.productSaleForm.controls[this.constantService.CONST_TXN_DATE_TEMP].disable();
+      this.productSaleForm.controls['soldQuantity'].disable();
+      this.productSaleForm.controls['transactionDateTemp'].disable();
     }
-    this.productSaleForm.controls[this.constantService.CONS_CLASSIFICATION].disable();
-    this.productSaleForm.controls[this.constantService.CONST_PRODUCT_NAME].disable();
-    this.productSaleForm.controls[this.constantService.CONST_PRICE].disable();
-    this.productSaleForm.controls[this.constantService.CONST_SRP].disable();
-    this.productSaleForm.controls[this.constantService.CONS_CLASSIFICATION].setValue(this.saleData.plainClassificationDto.name);
-    this.productSaleForm.controls[this.constantService.CONST_PRODUCT_NAME].setValue(this.saleData.name);
-    this.productSaleForm.controls[this.constantService.CONST_PRICE].setValue(this.saleData.pricePerPc);
-    this.productSaleForm.controls[this.constantService.CONST_SRP].setValue(this.saleData.srpPerPc);
-    this.productSaleForm.controls[this.constantService.CONST_TXN_DATE_TEMP].setValue(this.currentDate);
-    this.productSaleForm.controls[this.constantService.CONST_TXN_DATE].disable();
-    this.productSaleForm.controls[this.constantService.CONS_DISCOUNTED].setValue(false);
-    this.productSaleForm.controls[this.constantService.CONST_PRODUCT_ID].disable();
-    this.productSaleForm.controls[this.constantService.CONST_PHARMACIST].setValue(this.pharmacistOnDuty);
+    this.productSaleForm.controls['classification'].disable();
+    this.productSaleForm.controls['productName'].disable();
+    this.productSaleForm.controls['price'].disable();
+    this.productSaleForm.controls['srp'].disable();
+    this.productSaleForm.controls['classification'].setValue(this.saleData.plainClassificationDto.name);
+    this.productSaleForm.controls['productName'].setValue(this.saleData.name);
+    this.productSaleForm.controls['price'].setValue(this.saleData.pricePerPc);
+    this.productSaleForm.controls['srp'].setValue(this.saleData.srpPerPc);
+    this.productSaleForm.controls['transactionDateTemp'].setValue(this.currentDate);
+    this.productSaleForm.controls['transactionDate'].disable();
+    this.productSaleForm.controls['isDiscounted'].setValue(false);
+    this.productSaleForm.controls['productId'].disable();
+    this.productSaleForm.controls['pharmacist'].setValue(this.pharmacistOnDuty);
   }
 
   private enableRequiredAdditionalFields() {
-    this.productSaleForm.controls[this.constantService.CONST_TXN_DATE].enable();
-    this.productSaleForm.controls[this.constantService.CONS_CLASSIFICATION].enable();
-    this.productSaleForm.controls[this.constantService.CONST_PRODUCT_NAME].enable();
-    this.productSaleForm.controls[this.constantService.CONST_PRICE].enable();
-    this.productSaleForm.controls[this.constantService.CONST_SRP].enable();
-    this.productSaleForm.controls[this.constantService.CONS_DISCOUNTED].enable();
-    this.productSaleForm.controls[this.constantService.CONST_PRODUCT_ID].enable();
+    this.productSaleForm.controls['transactionDate'].enable();
+    this.productSaleForm.controls['classification'].enable();
+    this.productSaleForm.controls['productName'].enable();
+    this.productSaleForm.controls['price'].enable();
+    this.productSaleForm.controls['srp'].enable();
+    this.productSaleForm.controls['isDiscounted'].enable();
+    this.productSaleForm.controls['productId'].enable();
 
   }
 
-  openNotifyDialog() {
+  openNotifyDialog(message: string, status: string) {
     this.dialog.open(NotifyPromptComponent, {
       width: this.constantService.DIALOG_PROMPT_WIDTH,
-      data: { notifyMessage: this.notifyMessage, notifyStatus: this.notifyStatus }
+      data: { notifyMessage: message, notifyStatus: status }
     });
   }
 
