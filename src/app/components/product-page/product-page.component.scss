@@ -48,8 +48,8 @@
   }
 
   .page-table {
-    flex: 1; /* Expand to fill available space */
-    overflow-y: auto; /* Add a scrollbar when the content exceeds the container's height */
+    flex: 1;
+    overflow-y: auto;
   }
 
   .page-table .main-table {

@@ -60,6 +60,7 @@ export class ProductPageComponent implements OnInit {
           this.productsDataSource = new MatTableDataSource(res);
           this.productsDataSource.paginator = this.productsPaginator;
           this.productsDataSource.sort = this.sort;
+          this.checkProductStatus(res);
         },
         error:()=>{
           this.productStatus = this.messageService.ERROR_FAILED_TO_FETCH_PRODUCTS;
@@ -126,6 +127,23 @@ export class ProductPageComponent implements OnInit {
       this.cashierUtilService.refreshCart();
       this.currentCartValue = this.cashierUtilService.cartLength;
     })
+  }
+
+  checkProductStatus(response: any) {
+    for (const row of response) {
+      const givenExpiryDate = new Date(row.expiryDate);
+      const currentDate = new Date();
+      const timeDiff = givenExpiryDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if (daysDiff <= 0) {
+        row.disableCashier = true;
+        row.expiryStatus = 'expired';
+      }
+      if (row.remainingStock <= 0) {
+        row.disableCashier = true;
+        row.remainingStock = 0;
+      }
+    }
   }
 
 }
