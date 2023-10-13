@@ -106,6 +106,7 @@ export class CartPageComponent {
           next:(res)=> {
             // @ts-ignore
             this.txnInvoice = res[0].invoiceCode;
+            this.generateReceipt();
             this.productSavedVerified = res;
             this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_SOLD, 'OK');
             this.productsOnCart = res;
@@ -212,9 +213,12 @@ export class CartPageComponent {
   generateVATAmount() {
     const totalAmount = this.totalPrice;
     const vatPercentage = this.vatRate;
+    console.log(totalAmount)
+    console.log(vatPercentage)
     const vatAmount = (totalAmount * vatPercentage) / (100 + vatPercentage);
     let unformattedVatSale = this.totalPrice - vatAmount;
     this.vatSale = unformattedVatSale.toFixed(2);
+    console.log(vatAmount.toFixed(2));
     return vatAmount.toFixed(2)
   }
 
