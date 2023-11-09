@@ -4,7 +4,7 @@ import {LoginService} from "./login.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MessagesService} from "../../shared/services/messages.service";
 import {ConstantsService} from "../../shared/services/constants.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {NotifyPromptComponent} from "../../shared/notify-prompt/notify-prompt.component";
 
 @Component({
