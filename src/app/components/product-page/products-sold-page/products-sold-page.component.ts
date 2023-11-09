@@ -38,7 +38,7 @@ export class ProductsSoldPageComponent {
     this.cashierService.getProductSales()
       .subscribe({
         next:(res)=>{
-          this.dataSourceSales = new MatTableDataSource(res);
+          this.dataSourceSales = new MatTableDataSource(res.responseObject);
           this.dataSourceSales.paginator = this.salesPaginator;
           this.dataSourceSales.sort = this.sort;
         },
