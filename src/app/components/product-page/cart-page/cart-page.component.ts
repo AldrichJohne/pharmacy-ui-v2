@@ -105,11 +105,13 @@ export class CartPageComponent {
         .subscribe({
           next:(res)=> {
             // @ts-ignore
-            this.txnInvoice = res[0].invoiceCode;
+            this.txnInvoice = res.responseObject[0].invoiceCode;
             this.generateReceipt();
-            this.productSavedVerified = res;
+            // @ts-ignore
+            this.productSavedVerified = res.responseObject;
             this.openNotifyDialog(this.messageService.SUCCESS_PRODUCT_SOLD, 'OK');
-            this.productsOnCart = res;
+            // @ts-ignore
+            this.productsOnCart = res.responseObject;
             this.cartForm.reset();
             this.receiptButtonStatus = false;
             this.calcButtonStatus = true;
