@@ -133,10 +133,10 @@ export class CartPageComponent {
   getBusinessInfo() {
     this.applicationBackendUtilService.healthCheck().subscribe({
       next:(res) => {
-        this.businessName = res.businessInfo.businessName;
-        this.businessAlias = res.businessInfo.businessAlias;
-        this.businessAddress = res.businessInfo.businessAddress;
-        this.businessTIN = res.businessInfo.businessTin;
+        this.businessName = res.responseObject.businessInfo.businessName;
+        this.businessAlias = res.responseObject.businessInfo.businessAlias;
+        this.businessAddress = res.responseObject.businessInfo.businessAddress;
+        this.businessTIN = res.responseObject.businessInfo.businessTin;
       }
     })
   }
